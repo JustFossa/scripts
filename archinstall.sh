@@ -3,9 +3,9 @@ clear
 echo "Welcome to Gaz's arch install script"
 sleep 1
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 10/" /etc/pacman.conf
-reflector --country "Austrelia,Germany,India,Taiwan,Singapore,Thailand,China" --save /etc/pacman.d/mirrorlist
+reflector --country "Austrelia,Germany,Czechia" --save /etc/pacman.d/mirrorlist
 pacman --noconfirm -Sy archlinux-keyring
-loadkeys us
+loadkeys cz-qwertz
 timedatectl set-ntp true
 lsblk
 echo "Enter the drive: "
@@ -30,12 +30,12 @@ exit
 
 #part2
 clear
-ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
 hwclock --systohc
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" >/etc/locale.conf
-echo "KEYMAP=us" >/etc/vconsole.conf
+echo "KEYMAP=cz-qwertz" >/etc/vconsole.conf
 echo "Hostname: "
 read hostname
 echo $hostname >/etc/hostname
@@ -48,7 +48,7 @@ mkinitcpio -P
 passwd
 
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 10/" /etc/pacman.conf
-reflector --country "Austrelia,Germany,India,Taiwan,Singapore,Thailand,China" --save /etc/pacman.d/mirrorlist
+reflector --country "Austrelia,Germany,Czechia" --save /etc/pacman.d/mirrorlist
 pacman --noconfirm -Sy grub efibootmgr os-prober
 lsblk
 echo "Enter EFI partition: "
@@ -77,7 +77,7 @@ sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=ignore/' /etc/systemd/logind.c
 sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=ignore/' /etc/systemd/logind.conf
 sed -i 's/#HandleLidSwitchExternalPower=suspend/HandleLidSwitchExternalPower=ignore/' /etc/systemd/logind.conf
 
-git clone https://github.com/cybergaz/scripts /home/$username/scripts
+git clone https://github.com/justfossa/scripts /home/$username/scripts
 chown $username /home/$username/scripts
 chmod u+rwx /home/$username/scripts
 
